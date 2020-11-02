@@ -44,8 +44,7 @@ namespace ProductApp.Core.ApplicationServices.Services
                 Name = name,
                 Price = price,
                 Color = color,
-                Type = type,
-                CreatedDate = createdDate
+                Type = type
             };
             return product;
         }

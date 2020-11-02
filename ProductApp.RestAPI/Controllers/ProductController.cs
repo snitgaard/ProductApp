@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using ProductApp.Core.ApplicationServices;
 using ProductApp.Core.Entity;
@@ -10,6 +11,7 @@ using ProductApp.Core.Entity;
 
 namespace ProductApp.RestAPI.Controllers
 {
+    [EnableCors("MyPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
@@ -29,7 +31,7 @@ namespace ProductApp.RestAPI.Controllers
             {
                 return _productService.GetAllProducts();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return StatusCode(500, "No");
             }
@@ -49,7 +51,7 @@ namespace ProductApp.RestAPI.Controllers
             {
                 return _productService.FindProductById(id);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return StatusCode(500, "No");
             }
@@ -72,17 +74,10 @@ namespace ProductApp.RestAPI.Controllers
         {
             if (id < 1 || id != product.Id)
             {
-                return StatusCode(404, "No");
+                return BadRequest("No");
             }
 
-            try
-            {
-                return _productService.UpdateProduct(product);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, "No");
-            }
+            return Ok(_productService.UpdateProduct(product));
         }
 
         // DELETE api/<ProductController>/5
@@ -99,7 +94,7 @@ namespace ProductApp.RestAPI.Controllers
             {
                 return product;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return StatusCode(500, "No");
             }
